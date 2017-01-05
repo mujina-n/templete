@@ -2,30 +2,30 @@ set serveroutput on;
 set echo on;
 set timing on;
 /*------------------------------------------------------------------------------
-  �ꊇ�����ŃA�b�v�f�[�g����ꍇ�̃T���v���e���v���[�g
-  �@�悭�����̎Ј��e�[�u���̃t���O���X�V������e�ňȉ����L��
+  一括処理でアップデートする場合のサンプルテンプレート
+  　よくある例の社員テーブルのフラグを更新する内容で以下を記載
 --------------------------------------------------------------------------------*/
 DECLARE
 
-  -- Oracle�G���[
+  -- Oracleエラー
   sql_code NUMBER;
   sql_errm VARCHAR2(2048);
   sql_stmt VARCHAR2(2048);
   
-  -- FETCH�֘A
+  -- FETCH関連
   SIZE_FETCH CONSTANT NUMBER := 1000;
   bulkNotCompEx EXCEPTION;
   PRAGMA EXCEPTION_INIT(bulkNotCompEx, -24381);
 
-  -- �T�u���W���[���߂�l
+  -- サブモジュール戻り値
   STATUS_NORMAL CONSTANT NUMBER := 0;
   STATUS_ERROR CONSTANT NUMBER := 1;
   STATUS_FATAL CONSTANT NUMBER := -1;
 
-  -- �Ɩ��p���O(Key�ɂȂ���̂�ێ�)
+  -- 業務用ログ(Keyになるものを保持)
   dept_no DEPT.DEPT_NO%TYPE;
   
-  -- �J�[�\���錾
+  -- カーソル宣言
   CURSOR cur_work IS
     SELECT
       dpt.*
@@ -38,7 +38,7 @@ DECLARE
   rec_work type_work;
 
   ----------------------------------------------------------------------------
-  -- �T�u�֐�
+  -- サブ関数
   ----------------------------------------------------------------------------
   FUNCTION subMain(p_cnt out NUMBER, p_rec in type_work)
     RETURN NUMBER
@@ -75,13 +75,13 @@ DECLARE
   END;
 
   ----------------------------------------------------------------------------
-  -- ���C���֐�
+  -- メイン関数
   ----------------------------------------------------------------------------
   PROCEDURE main
   IS
-    -- ���ʊ֐��̃X�e�[�^�X
+    -- 下位関数のステータス
     status NUMBER DEFAULT STATUS_ERROR;
-    -- ��������
+    -- 処理結果
     cnt_trun NUMBER DEFAULT 0;
     cnt_all NUMBER DEFAULT 0;
     cnt_normal NUMBER DEFAULT 0;
@@ -107,17 +107,17 @@ DECLARE
 
     cnt_all := cur_work%ROWCOUNT;
     CLOSE cur_work;
-    dbms_output.put_line('��������:' || cnt_normal || '/' || cnt_all);
+    dbms_output.put_line('処理件数:' || cnt_normal || '/' || cnt_all);
   EXCEPTION
   WHEN OTHERS THEN
     sql_code := SQLCODE;
     sql_errm := SQLERRM;
-    dbms_output.put_line('[END_FATAL:main():FETCH�J�[�\���G���[�A�Ď��s���Ă��������B]' || sql_errm);
+    dbms_output.put_line('[END_FATAL:main():FETCHカーソルエラー、再実行してください。]' || sql_errm);
     ROLLBACK;
   END;
 
 ---------
--- �J�n
+-- 開始
 ---------
 BEGIN
 
