@@ -1,10 +1,10 @@
 #!/bin/sh
 #-------------------------------------------------------------------------------
 # よく使うシェル内のコマンドのタイムアウトを設定するサンプル
-# 　usage : source ./timeout.sh
-# 　　　　　timeout SEC_TIMEOUT CMD
-# 　　　　　　SEC_TIMEOUT - タイムアウト秒数
-# 　　　　　　CMD         - 実行コマンド 
+# 　usage:source ./timeout.sh
+# 　　　　timeout SEC_TIMEOUT CMD
+# 　　　　　SEC_TIMEOUT - タイムアウト秒数
+# 　　　　　CMD         - 実行コマンド 
 #-------------------------------------------------------------------------------
 timeout()
 {
