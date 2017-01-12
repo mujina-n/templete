@@ -33,5 +33,5 @@ where
     where 
     OWNER = a.OWNER 
     and OBJECT_TYPE='TABLE' )
-order by talb
+order by table_name
 ;
