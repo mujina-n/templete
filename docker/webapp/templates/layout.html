@@ -1,0 +1,16 @@
+<!doctype html>
+<head>
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"
+    media="screen" charset="utf-8">
+  <title>Flask Web</title>
+</head>
+<body>
+  <div class="page">
+  <h1>Flask WEB</h1>
+  <div class="metanav"></div>
+    {% block body %}{% endblock %}
+  </div>
+</body>
+</html>

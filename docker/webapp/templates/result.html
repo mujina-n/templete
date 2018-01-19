@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h2>Predict Result</h2>
+    <form action="{{ url_for('download', path=dlfile) }}"  method="GET">
+      <input type="submit" value="download csv">
+    </form>
+    {% if form %}
+    <table colspan="3">
+        <tr>
+            <th>no</th>
+            <th>feature</th>
+            <th>result</th>
+        </tr>
+        {% for item in form.items %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ item.feature(class="feature") }}</td>
+                <td>{{ item.predict }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+{% endblock %}
