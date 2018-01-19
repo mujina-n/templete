@@ -1,6 +1,6 @@
 FROM centos:6.9
 
-MAINTAINER Taro Toyosu
+MAINTAINER mujinan
 ENV SUPW apadmin
 ARG my_user="apadmin"
 ARG my_passwd="apadmin"
@@ -17,7 +17,8 @@ RUN yum -y update && yum -y upgrade
 RUN yum -y install centos-release-scl-rh
 RUN yum -y install python27
 RUN echo 'source /opt/rh/python27/enable' > /etc/profile.d/python27.sh
-RUN scl enable python27 bash
+ENTRYPOINT  ["scl", "enable", "python27", "--", "bash", "-c"]
+#RUN scl enable python27 '/bin/bash'
 RUN yum -y install python-pip python-devel
 #RUN easy_install --upgrade pip
 RUN pip install numpy pandas sklearn scipy wtforms
@@ -73,3 +74,4 @@ USER ${my_user}
 # run app
 ADD ./scripts/service_run.sh /home/${my_user}/service_run.sh
 CMD echo ${SUPW} | sudo -S /bin/sh /home/apadmin/service_run.sh
+EXPOSE 8080
